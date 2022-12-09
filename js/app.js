@@ -21,7 +21,7 @@ let tie = false
 
 const squareEls = document.querySelectorAll(".sqr")
 
-const messageEl = document.getElementById("#message")
+const messageEl = document.getElementById("message")
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -31,17 +31,18 @@ const messageEl = document.getElementById("#message")
 /*-------------------------------- Functions --------------------------------*/
 
 function init () {
-    // board = [null, null, null, null, null, null, null, null, null,]
-    // turn = 1
-    // winner = false
-    // tie = false
+    board = [null, null, null, null, null, null, null, null, null,]
+    turn = 1
+    winner = false
+    tie = false
     render()
 }
 
 init()
 
 function render() {
-
+    updateBoard()
+    updateMessage()
 }
 
 function updateBoard() {
@@ -56,6 +57,18 @@ function updateBoard() {
     })
 }
 
-updateBoard()
-
 console.log(updateBoard)
+
+function updateMessage() {
+    if (winner === false && tie === false) {
+        messageEl.textContent = `Player ${turn}, you're up!`
+    } else if (winner === false && tie === true) {
+        messageEl.textContent = `It's a tie!`
+    } else {
+        messageEl.textContent = `${turn} has won!`
+    }
+} 
+
+
+
+
