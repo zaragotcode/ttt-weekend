@@ -14,9 +14,10 @@ const winningCombos = [
 ]
 
 
+
 /*---------------------------- Variables (state) ----------------------------*/
 // (BOARD) - represent state of the squares on the board
-let board = [null, null, null, null, null, null, null, null, null,]
+let board = [null, null, null, null, null, null, null, null, null]
 
 // (TURN) - track player turn
 let turn = 1
@@ -35,15 +36,18 @@ const squareEls = document.querySelectorAll(".sqr")
 
 const messageEl = document.getElementById("message")
 
-
 /*----------------------------- Event Listeners -----------------------------*/
+
+squareEls.forEach(function(square){
+    square.addEventListener("click", handleClick)
+})
 
 
 
 /*-------------------------------- Functions --------------------------------*/
 
 function init () {
-    board = [null, null, null, null, null, null, null, null, null,]
+    board = [null, null, null, null, null, null, null, null, null]
     turn = 1
     winner = false
     tie = false
@@ -69,8 +73,6 @@ function updateBoard() {
     })
 }
 
-console.log(updateBoard)
-
 function updateMessage() {
     if (winner === false && tie === false) {
         messageEl.textContent = `Player ${turn}, you're up!`
@@ -81,8 +83,42 @@ function updateMessage() {
     }
 } 
 
+function handleClick(evt) {
+    //console.dir(evt.target); Grabs the target value of the event
+    sqIdx = evt.target.id.slice(2) //Uses slice to remove first two values leaving the id # which we set to be the value of sqIdx
+    //console.log(sqIdx);
+    if (board[sqIdx] !== null) {
+        return
+    }  
+    
+    placePiece(sqIdx)
+    checkForTie()
+    checkForWinner()
+    console.log(winner);
+    render()
+}
 
+function placePiece(idx) {
+    board[idx] = turn
+}
 
+function checkForTie(){
+    // Check if every value in board is NOT equal to null, else return true if so
+    let check = board.every(function(square) {
+        return square !== null 
+    })
+    //  console.log(check);
+    //  console.log(board);
+}  
 
-
-
+function checkForWinner() {
+   winningCombos.forEach(function(combo) {
+    let totalSumAtCombo = combo.reduce(function(sum, sqrId) {
+        return sum + board[sqrId]
+   }, 0) 
+   if (totalSumAtCombo === 3 || totalSumAtCombo === -3) {
+        winner = true
+   } 
+}) 
+}
+   
