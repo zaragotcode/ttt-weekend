@@ -36,6 +36,8 @@ const squareEls = document.querySelectorAll(".sqr")
 
 const messageEl = document.getElementById("message")
 
+const resetBtnEl = document.getElementById("reset")
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 squareEls.forEach(function(square){
@@ -43,6 +45,7 @@ squareEls.forEach(function(square){
 })
 
 
+resetBtnEl.addEventListener("click", init)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -51,6 +54,7 @@ function init () {
     turn = 1
     winner = false
     tie = false
+    rstButton()
     render()
 }
 
@@ -94,7 +98,9 @@ function handleClick(evt) {
     placePiece(sqIdx)
     checkForTie()
     checkForWinner()
-    console.log(winner);
+    switchPlayerTurn()
+    rstButton()
+    //console.log(winner);
     render()
 }
 
@@ -121,4 +127,19 @@ function checkForWinner() {
    } 
 }) 
 }
-   
+
+function switchPlayerTurn() {
+    if (winner === false) {
+        turn = turn * -1
+    } else if (winner === true) {
+        return
+    }
+}
+
+function rstButton() {
+    if (winner === false) {
+        resetBtnEl.style.visibility = "hidden";
+    } else {
+        resetBtnEl.style.visibility = "visible";
+    }
+}
